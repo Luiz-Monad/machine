@@ -29,6 +29,7 @@ const (
 	PluginEnvKey        = "MACHINE_PLUGIN_TOKEN"
 	PluginEnvVal        = "42"
 	PluginEnvDriverName = "MACHINE_PLUGIN_DRIVER_NAME"
+	PluginEnvReattach   = "MACHINE_PLUGIN_REATTACH"
 )
 
 type PluginStreamer interface {
@@ -112,6 +113,16 @@ func driverPath(driverName string) string {
 }
 
 func NewPlugin(driverName string) (*Plugin, error) {
+	reattachAddr := os.Getenv(PluginEnvReattach)
+	if (reattachAddr != "") {
+		addrCh := make(chan string, 1)
+		addrCh <- reattachAddr
+		return &Plugin{
+			stopCh: make(chan struct{}),
+			addrCh: addrCh,
+		},  nil
+	}
+
 	driverPath := driverPath(driverName)
 	binaryPath, err := exec.LookPath(driverPath)
 	if err != nil {
@@ -189,6 +200,10 @@ func (lbp *Plugin) AttachStream(scanner *bufio.Scanner) <-chan string {
 }
 
 func (lbp *Plugin) execServer() error {
+	if (lbp.Executor == nil) {
+		return nil
+	}
+
 	outScanner, errScanner, err := lbp.Executor.Start()
 	if err != nil {
 		return err

@@ -28,6 +28,7 @@ Please use this plugin through the main 'docker-machine' binary.
 `, version.APIVersion)
 		os.Exit(1)
 	}
+	noheartEnv := os.Getenv("MACHINE_NOHEART")
 
 	log.SetDebug(true)
 	os.Setenv("MACHINE_DEBUG", "1")
@@ -57,7 +58,9 @@ Please use this plugin through the main 'docker-machine' binary.
 			continue
 		case <-time.After(heartbeatTimeout):
 			// TODO: Add heartbeat retry logic
-			os.Exit(1)
+			if noheartEnv == "" {
+				os.Exit(1)
+			}
 		}
 	}
 }
