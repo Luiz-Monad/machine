@@ -13,8 +13,10 @@ require (
 	github.com/hectane/go-acl v0.0.0-20190604041725-da78bae5fc95
 	github.com/intel-go/cpuid v0.0.0-20181003105527-1a4a6f06a1c6
 	github.com/moby/term v0.0.0-20200416134343-063f2cd0b49d
-	github.com/rackspace/gophercloud v0.0.0-20150408191457-ce0f487f6747
-	github.com/samalba/dockerclient v0.0.0-20151231000007-f661dd4754aa
+	github.com/pmezard/go-difflib v1.0.0
+	github.com/rackspace/gophercloud v1.0.1-0.20150408191457-ce0f487f6747
+	github.com/samalba/dockerclient v0.0.0-20160531175551-a30362618471
+	github.com/sirupsen/logrus v1.0.4
 	github.com/skarademir/naturalsort v0.0.0-20150715044055-69a5d87bef62
 	github.com/stretchr/testify v1.2.2
 	github.com/vmware/govcloudair v0.0.2
